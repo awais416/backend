@@ -3,9 +3,11 @@ import userController from './user.controller'
 export const userRouter = express.Router()
 userRouter
 .route('/')
-.get(userController.getUser)
-.post(userController.createUser)
+.get(userController.getUsers)
+.post(userController.createUser) 
 
 userRouter
 .route('/:id')
+// .get(userController.getUser)
 .put(userController.updateUser)  
+.delete(userController.deleteUser)
