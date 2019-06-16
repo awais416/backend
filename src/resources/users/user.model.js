@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import pick from 'lodash.pick'
+import bcrypt from 'bcryptjs'
 /** create a schema (data modeling) */
 const schema = {
     email: {
@@ -21,5 +23,24 @@ const schema = {
 /** create the model */
 const userSchema = new mongoose.Schema(schema,{ timestamps:true})
 
+/** hash password before saving it to the db */
+userSchema.pre('save', async function(next){
+    console.log('step 1')
+    if (this.isModified('password')){
+        console.log('step2')
+        const salt = await bcrypt.genSalt(10)
+        this.password = await bcrypt.hash(this.password,salt)
+        next()
+    }
+    else { 
+        next()
+    }
+    console.log(this)
+})
+
+/** choose user data to send back back to client */
+userSchema.methods.toJSON = function() {
+    return pick(this,['_id', 'email', 'username', 'photoUrl', 'isAdmin'])
+} 
 /** export model */
 export const User = mongoose.model('user', userSchema)

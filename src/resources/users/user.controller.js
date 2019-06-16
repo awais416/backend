@@ -17,7 +17,7 @@
      },
      async getUsers(req, res){
         try {
-            const result = await User.find({}, 'password email username')
+            const result = await User.find({})
             res.status(200).send(result)
         }
         catch (err){

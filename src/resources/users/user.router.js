@@ -4,7 +4,7 @@ export const userRouter = express.Router()
 userRouter
 .route('/')
 .get(userController.getUsers)
-.post(userController.createUser) 
+.post(userController.createUser)  // Remove this : dont need this router anymore, we are using this in main router.js in signup
 
 userRouter
 .route('/:id')
