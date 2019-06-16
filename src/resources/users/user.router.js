@@ -8,6 +8,6 @@ userRouter
 
 userRouter
 .route('/:id')
-// .get(userController.getUser)
+.get(userController.getProfile)
 .put(userController.updateUser)  
 .delete(userController.deleteUser)
