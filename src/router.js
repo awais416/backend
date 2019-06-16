@@ -12,4 +12,3 @@ router.post('/signup', (req,res) => {
     res.send(user)
 })
 router.use('/users',userRouter)
-
