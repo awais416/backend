@@ -17,8 +17,17 @@
      },
      async getUser(req, res){
         try {
-            const result = await User.find({email:/nowal/i},'password email')
+            const result = await User.find({}, 'password email')
             res.status(200).send(result)
+        }
+        catch (err){
+            res.status(404).send(err)
+        }
+     },
+     async updateUser(req, res){
+        try {
+            const user = await User.findByIdAndUpdate(req.params.id, req.body, {new:true} )
+            res.status(200).send(user)
         }
         catch (err){
             res.status(404).send(err)
