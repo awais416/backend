@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import pick from 'lodash.pick'
 import bcrypt from 'bcryptjs'
+import Joi from '@hapi/joi'
 /** create a schema (data modeling) */
 const schema = {
     email: {
@@ -25,9 +26,7 @@ const userSchema = new mongoose.Schema(schema,{ timestamps:true})
 
 /** hash password before saving it to the db */
 userSchema.pre('save', async function(next){
-    console.log('step 1')
     if (this.isModified('password')){
-        console.log('step2')
         const salt = await bcrypt.genSalt(10)
         this.password = await bcrypt.hash(this.password,salt)
         next()
@@ -35,7 +34,6 @@ userSchema.pre('save', async function(next){
     else { 
         next()
     }
-    console.log(this)
 })
 
 /** choose user data to send back back to client */
@@ -44,3 +42,14 @@ userSchema.methods.toJSON = function() {
 } 
 /** export model */
 export const User = mongoose.model('user', userSchema)
+
+
+
+/** not sure if i should use a secondary validation like joi yet */
+// export function validateUser (data) {
+//     const schemas = Joi.object().keys({
+//         email: Joi.string().required().email().trim().unique(),
+//         password: Joi.string().required().min(10),
+//     })
+//     return Joi.validate(data,schemas)
+// }

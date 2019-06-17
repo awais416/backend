@@ -1,13 +1,17 @@
  /** import User model */
  import {
-     User
- } from './user.model'
+     User, validateUser} from './user.model'
  import pick from 'lodash.pick'
 
  /** create the user controller */
  const userController = {
      async createUser(req, res) {
          try {
+             /** secondary validation like joi */
+            //  const err = validateUser(req.body)
+            //  if (err){
+            //      res.status(400).send(err)
+            //  }
              const user = new User(pick(req.body, ['email', 'password']))
              await user.save()
              res.status(200).send(user)
