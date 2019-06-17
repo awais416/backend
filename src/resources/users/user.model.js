@@ -46,10 +46,10 @@ export const User = mongoose.model('user', userSchema)
 
 
 /** not sure if i should use a secondary validation like joi yet */
-// export function validateUser (data) {
-//     const schemas = Joi.object().keys({
-//         email: Joi.string().required().email().trim().unique(),
-//         password: Joi.string().required().min(10),
-//     })
-//     return Joi.validate(data,schemas)
-// }
+export function validateUser (data) {
+    const schemas = Joi.object().keys({
+        email: Joi.string().required().email().trim().unique(),
+        password: Joi.string().required().min(10),
+    })
+    return Joi.validate(data,schemas)
+}

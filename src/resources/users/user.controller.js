@@ -12,7 +12,7 @@
             //  if (err){
             //      res.status(400).send(err)
             //  }
-             const user = new User(pick(req.body, ['email', 'password']))
+             const user = new User(pick(req.body, ['email', 'password','username']))
              await user.save()
              res.status(200).send(user)
          } catch (err) {
