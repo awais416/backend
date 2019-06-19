@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import pick from 'lodash.pick'
 import bcrypt from 'bcryptjs'
 import Joi from '@hapi/joi'
+import jwt from 'jsonwebtoken'
+import config from '../../config'
+
 /** create a schema (data modeling) */
 const schema = {
     email: {
@@ -24,6 +27,7 @@ const schema = {
 /** create the model */
 const userSchema = new mongoose.Schema(schema,{ timestamps:true})
 
+
 /** hash password before saving it to the db */
 userSchema.pre('save', async function(next){
     if (this.isModified('password')){
@@ -36,12 +40,16 @@ userSchema.pre('save', async function(next){
     }
 })
 
+userSchema.methods.generateAuthToken = function() {
+    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin },config.secrets.JWT_SECRET)
+    return token
+}
+
 /** choose user data to send back back to client */
 userSchema.methods.toJSON = function() {
+    console.log("this", this)
     return pick(this,['_id', 'email', 'username', 'photoUrl', 'isAdmin'])
 } 
-/** export model */
-export const User = mongoose.model('user', userSchema)
 
 
 
@@ -53,3 +61,7 @@ export function validateUser (data) {
     })
     return Joi.validate(data,schemas)
 }
+
+/** export model */
+export const User = mongoose.model('user', userSchema)
+

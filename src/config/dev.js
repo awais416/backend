@@ -1,8 +1,8 @@
 const devConfig = {
     port : process.env.PORT || 3000,
     database: 'mongodb://localhost/development',
-    secret: {
-        "API_KEY":  process.env.API_KEY
+    secrets: {
+        "JWT_SECRET":  process.env.JWT_SECRET,
     }
 }
  

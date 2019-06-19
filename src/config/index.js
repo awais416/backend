@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV
 
 const baseConfig = {
 
-    secret :{}
+    secrets :{}
 }
 
 let envConfig = {}
